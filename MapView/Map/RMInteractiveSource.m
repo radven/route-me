@@ -256,7 +256,8 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"MBTiles: %@, zooms %i-%i, %@", 
+    return [NSString stringWithFormat:@"%@: %@, zooms %i-%i, %@", 
+               [self class],
                [self shortName], 
                (int)[self minZoom], 
                (int)[self maxZoom], 
@@ -371,7 +372,8 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"TileStream: %@, zooms %i-%i, %@", 
+    return [NSString stringWithFormat:@"%@: %@, zooms %i-%i, %@", 
+               [self class],
                [self shortName], 
                (int)[self minZoom], 
                (int)[self maxZoom], 
@@ -464,6 +466,16 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 #pragma mark Cached Source Interactivity
 
 @implementation RMCachedTileSource (RMInteractiveSource)
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@: %@, zooms %i-%i, %@", 
+               [tileSource class],
+               [self shortName], 
+               (int)[self minZoom], 
+               (int)[self maxZoom], 
+               ([self supportsInteractivity] ? @"supports interactivity" : @"no interactivity")];
+}
 
 - (BOOL)supportsInteractivity
 {

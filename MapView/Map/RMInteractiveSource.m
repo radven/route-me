@@ -469,7 +469,7 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@: %@, zooms %i-%i, %@", 
+    return [NSString stringWithFormat:@"%@ (cached): %@, zooms %i-%i, %@", 
                [tileSource class],
                [self shortName], 
                (int)[self minZoom], 

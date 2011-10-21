@@ -40,6 +40,7 @@
 @synthesize enableRotation;
 @synthesize lineDashPhase;
 @synthesize scaleLineDash;
+@synthesize mapContents;
 @synthesize shadowBlur;
 @synthesize shadowOffset;
 

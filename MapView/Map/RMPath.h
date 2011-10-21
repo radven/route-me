@@ -103,6 +103,7 @@
 @property (assign) BOOL enableRotation;
 @property (readwrite, assign) UIColor *lineColor;
 @property (readwrite, assign) UIColor *fillColor;
+@property (readwrite, assign) RMMapContents *mapContents;
 
 - (void) moveToXY: (RMProjectedPoint) point;
 - (void) moveToScreenPoint: (CGPoint) point;

@@ -30,6 +30,8 @@
 //  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+//  Based on the UTFGrid specification: https://github.com/mapbox/utfgrid-spec
+//
 //  Example usage at: https://github.com/mapbox/MBTiles-Interactivity-Example
 //
 
@@ -39,11 +41,10 @@
 
 @class RMMapView;
 
-/**
- * Interactivity currently supports two types of output: 'teaser'
- * and 'full'. Ideal for master/detail interfaces or for showing
- * a MapKit-style detail-toggling point callout. 
- */
+// Interactivity currently supports two types of output: 'teaser'
+// and 'full'. Ideal for master/detail interfaces or for showing
+// a MapKit-style detail-toggling point callout. 
+
 typedef enum {
     RMInteractiveSourceOutputTypeTeaser = 0,
     RMInteractiveSourceOutputTypeFull   = 1,
@@ -53,26 +54,12 @@ typedef enum {
 
 @required
 
-/**
- * Query if a tile source supports interactivity features.
- */
+// Query if a tile source supports interactivity features.
+//
 - (BOOL)supportsInteractivity;
 
-/**
- * Get the raw interactivity dictionary for a given point.
- */
-- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
-
-/**
- * Get the raw interactivity formatter JavaScript for a source.
- */
-- (NSString *)interactivityFormatterJavascript;
-
-/**
- * Get the HTML-formatted output for a given point. This is probably 
- * what you want most of the time after determining that a source 
- * supports interactivity.
- */
+// Get the HTML-formatted output for a given point on a given map view.
+//
 - (NSString *)formattedOutputOfType:(RMInteractiveSourceOutputType)outputType forPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
 
 @end
@@ -82,8 +69,6 @@ typedef enum {
 @interface RMMBTilesTileSource (RMInteractiveSource) <RMInteractiveSource>
 
 - (BOOL)supportsInteractivity;
-- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
-- (NSString *)interactivityFormatterJavascript;
 - (NSString *)formattedOutputOfType:(RMInteractiveSourceOutputType)outputType forPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
 
 @end
@@ -93,8 +78,6 @@ typedef enum {
 @interface RMTileStreamSource (RMInteractiveSource) <RMInteractiveSource>
 
 - (BOOL)supportsInteractivity;
-- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
-- (NSString *)interactivityFormatterJavascript;
 - (NSString *)formattedOutputOfType:(RMInteractiveSourceOutputType)outputType forPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
 
 @end
@@ -104,8 +87,6 @@ typedef enum {
 @interface RMCachedTileSource (RMInteractiveSource) <RMInteractiveSource>
 
 - (BOOL)supportsInteractivity;
-- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
-- (NSString *)interactivityFormatterJavascript;
 - (NSString *)formattedOutputOfType:(RMInteractiveSourceOutputType)outputType forPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
 
 @end

@@ -409,6 +409,7 @@
 		DD3B5A8F1459E29A00B5D18C /* libGRMustache1-ios4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGRMustache1-ios4.a"; path = "GRMustache/lib/libGRMustache1-ios4.a"; sourceTree = "<group>"; };
 		DD55FD1212FB40E000B6FE24 /* RMMBTilesTileSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMBTilesTileSource.m; sourceTree = "<group>"; };
 		DD55FD1312FB40E000B6FE24 /* RMMBTilesTileSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMBTilesTileSource.h; sourceTree = "<group>"; };
+		DD6DBEC9145A3788000C33BE /* INTERACTIVITY.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = INTERACTIVITY.markdown; path = ../INTERACTIVITY.markdown; sourceTree = "<group>"; };
 		DDA3E85413B00D9E004D861C /* RMMapQuestOSMSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapQuestOSMSource.h; sourceTree = "<group>"; };
 		DDA3E85513B00D9E004D861C /* RMMapQuestOSMSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMapQuestOSMSource.m; sourceTree = "<group>"; };
 		DDCD58D11406F8A300F59E0D /* RMTileStreamSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMTileStreamSource.h; sourceTree = "<group>"; };
@@ -560,6 +561,7 @@
 			isa = PBXGroup;
 			children = (
 				B8C9740E0E8A198F007D16AD /* README.txt */,
+				DD6DBEC9145A3788000C33BE /* INTERACTIVITY.markdown */,
 				2B2BD41E0F79A95500B8B9A7 /* routeme.doxygen */,
 			);
 			name = Documentation;

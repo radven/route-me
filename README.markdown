@@ -47,7 +47,7 @@ See LicenseRouteMe.txt for license details. In any app that uses the Route-Me li
 Interactivity
 -------------
 
-This is a branch of Route-Me by Development Seed[ds] which features embedded interactivity capabilities. See the INTERACTIVITY file for more information. 
+This is a branch of Route-Me by [Development Seed][ds] which features embedded interactivity capabilities. See the INTERACTIVITY file for more information. 
 
 [ds]: http://developmentseed.org/blog/2011/11/01/map-interactivity-library-ios/
 

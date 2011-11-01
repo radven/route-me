@@ -44,6 +44,16 @@ See LicenseRouteMe.txt for license details. In any app that uses the Route-Me li
    [dl]: http://github.com/route-me/route-me/zipball/master
    
    
+Interactivity
+-------------
+
+This is a branch of Route-Me by [Development Seed][ds] which features embedded interactivity capabilities. See the INTERACTIVITY file for more information. 
+
+Before you try to use it, you should run `git submodule update --init` to pull down a couple required libraries as Git submodules into the main project folder. 
+
+[ds]: http://developmentseed.org/blog/2011/11/01/map-interactivity-library-ios/
+
+
 News, Support and Contributing
 ------------------------------
 

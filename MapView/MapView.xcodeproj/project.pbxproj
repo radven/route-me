@@ -205,6 +205,8 @@
 		D1437B35122869E400888DAE /* RMDBTileImage.h in Headers */ = {isa = PBXBuildFile; fileRef = D1437B31122869E400888DAE /* RMDBTileImage.h */; };
 		D1437B36122869E400888DAE /* RMDBMapSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D1437B32122869E400888DAE /* RMDBMapSource.m */; };
 		D1437B37122869E400888DAE /* RMDBMapSource.h in Headers */ = {isa = PBXBuildFile; fileRef = D1437B33122869E400888DAE /* RMDBMapSource.h */; };
+		DD3B5A911459E29A00B5D18C /* GRMustache.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3B5A841459E29A00B5D18C /* GRMustache.h */; };
+		DD3B5A9C1459E29A00B5D18C /* libGRMustache1-ios4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3B5A8F1459E29A00B5D18C /* libGRMustache1-ios4.a */; };
 		DD55FD1412FB40E000B6FE24 /* RMMBTilesTileSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD55FD1212FB40E000B6FE24 /* RMMBTilesTileSource.m */; };
 		DD55FD1512FB40E000B6FE24 /* RMMBTilesTileSource.h in Headers */ = {isa = PBXBuildFile; fileRef = DD55FD1312FB40E000B6FE24 /* RMMBTilesTileSource.h */; };
 		DD55FD1612FB40E000B6FE24 /* RMMBTilesTileSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD55FD1212FB40E000B6FE24 /* RMMBTilesTileSource.m */; };
@@ -403,6 +405,8 @@
 		D1437B31122869E400888DAE /* RMDBTileImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMDBTileImage.h; sourceTree = "<group>"; };
 		D1437B32122869E400888DAE /* RMDBMapSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMDBMapSource.m; sourceTree = "<group>"; };
 		D1437B33122869E400888DAE /* RMDBMapSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMDBMapSource.h; sourceTree = "<group>"; };
+		DD3B5A841459E29A00B5D18C /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GRMustache.h; path = GRMustache/include/GRMustache.h; sourceTree = "<group>"; };
+		DD3B5A8F1459E29A00B5D18C /* libGRMustache1-ios4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGRMustache1-ios4.a"; path = "GRMustache/lib/libGRMustache1-ios4.a"; sourceTree = "<group>"; };
 		DD55FD1212FB40E000B6FE24 /* RMMBTilesTileSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMBTilesTileSource.m; sourceTree = "<group>"; };
 		DD55FD1312FB40E000B6FE24 /* RMMBTilesTileSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMBTilesTileSource.h; sourceTree = "<group>"; };
 		DDA3E85413B00D9E004D861C /* RMMapQuestOSMSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapQuestOSMSource.h; sourceTree = "<group>"; };
@@ -454,6 +458,7 @@
 				B8C974540E8A19B2007D16AD /* QuartzCore.framework in Frameworks */,
 				B8474BC10EB4019A006A0BC1 /* libsqlite3.dylib in Frameworks */,
 				3849889C0F6F758100496293 /* libProj4.a in Frameworks */,
+				DD3B5A9C1459E29A00B5D18C /* libGRMustache1-ios4.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -842,13 +847,31 @@
 			name = "Coordinate Systems";
 			sourceTree = "<group>";
 		};
+		DD3B5A9D1459E2B000B5D18C /* GRMustache */ = {
+			isa = PBXGroup;
+			children = (
+				DD3B5A841459E29A00B5D18C /* GRMustache.h */,
+				DD3B5A8F1459E29A00B5D18C /* libGRMustache1-ios4.a */,
+			);
+			name = GRMustache;
+			sourceTree = "<group>";
+		};
+		DD3B5A9E1459E2BB00B5D18C /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				DDF0B7611411992500ED0DF4 /* JSONKit.h */,
+				DDF0B7621411992500ED0DF4 /* JSONKit.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 		DDF0B760141198B500ED0DF4 /* Interactivity */ = {
 			isa = PBXGroup;
 			children = (
 				DDF0B75C1411985900ED0DF4 /* RMInteractiveSource.h */,
 				DDF0B75D1411985900ED0DF4 /* RMInteractiveSource.m */,
-				DDF0B7611411992500ED0DF4 /* JSONKit.h */,
-				DDF0B7621411992500ED0DF4 /* JSONKit.m */,
+				DD3B5A9E1459E2BB00B5D18C /* JSONKit */,
+				DD3B5A9D1459E2B000B5D18C /* GRMustache */,
 			);
 			name = Interactivity;
 			sourceTree = "<group>";
@@ -920,6 +943,7 @@
 				DDCD58D31406F8A400F59E0D /* RMTileStreamSource.h in Headers */,
 				DDF0B75E1411985900ED0DF4 /* RMInteractiveSource.h in Headers */,
 				DDF0B7631411992500ED0DF4 /* JSONKit.h in Headers */,
+				DD3B5A911459E29A00B5D18C /* GRMustache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1435,6 +1459,10 @@
 				GCC_PREFIX_HEADER = MapView_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = ../Proj4;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Map/GRMustache/lib\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = MapView;
@@ -1453,6 +1481,10 @@
 				GCC_PREFIX_HEADER = MapView_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "NS_BLOCK_ASSERTIONS=1";
 				HEADER_SEARCH_PATHS = ../Proj4;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Map/GRMustache/lib\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = MapView;

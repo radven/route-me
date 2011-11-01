@@ -41,6 +41,8 @@
 
 #import "JSONKit.h"
 
+#import "GRMustache.h"
+
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 
@@ -52,6 +54,11 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMapView *mapView)
 {
+    // This function figures out which RMTile a given point falls on for a given
+    // map view. This is required because tiles get stitched together on render
+    // and touches are no longer correlated to tiles, unlike on websites where 
+    // the tile is still an actual tile image.
+    
     // determine renderer scroll layer sub-layer touched
     //
     CALayer *rendererLayer = [mapView.contents.renderer valueForKey:@"layer"];
@@ -96,7 +103,26 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
     return tilePoint;
 }
 
+@protocol RMInteractiveSourcePrivate <RMInteractiveSource>
+
+// This is the stuff that interactive tile sources need to do, but 
+// that you don't interact with in a public way.
+
+@required
+
+- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
+- (NSString *)interactivityFormatterTemplate;
+
+@optional
+
+- (NSString *)interactivityFormatterJavascript; // deprecated by UTFGrid 1.2
+
+@end
+
 @interface RMInteractiveSource : NSObject
+
+// These are routines common to all interactive tile source types, 
+// made handy as class methods for convenience.
 
 + (NSString *)keyNameForPoint:(CGPoint)point inGrid:(NSDictionary *)grid;
 + (NSString *)formattedOutputOfType:(RMInteractiveSourceOutputType)type forPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
@@ -158,41 +184,80 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
     
     id <RMTileSource>source = mapView.contents.tileSource;
     
-    NSDictionary *interactivityDictionary = [(id <RMInteractiveSource>)source interactivityDictionaryForPoint:point inMapView:mapView];
-    NSString     *formatterJavascript     = [(id <RMInteractiveSource>)source interactivityFormatterJavascript];
+    NSDictionary *interactivityDictionary = [(id <RMInteractiveSourcePrivate>)source interactivityDictionaryForPoint:point inMapView:mapView];
     
-    if (interactivityDictionary && formatterJavascript)
+    if (interactivityDictionary)
     {
-        UIWebView *formatter = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
-        
-        NSString  *keyJSON = [interactivityDictionary objectForKey:@"keyJSON"];
-        
-        [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var data   = %@;", keyJSON]];
-        [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var format = %@;", formatterJavascript]];
-        
-        NSString *format;
-        
-        switch (outputType)
+        // As of UTFGrid 1.2, JavaScript formatters are no longer supported. We 
+        // prefer Mustache-based templating instead, but support JavaScript here 
+        // for backwards compatibility (for now). 
+        //
+        // More on Mustache: http://mustache.github.com
+        //
+        NSString *formatterTemplate   = [(id <RMInteractiveSourcePrivate>)source interactivityFormatterTemplate];
+
+        if (formatterTemplate)
         {
-            case RMInteractiveSourceOutputTypeTeaser:
-                format = @"teaser";
-                break;
-                
-            case RMInteractiveSourceOutputTypeFull:
-            default:
-                format = @"full";
-                break;
+            NSDictionary *infoObject = [[interactivityDictionary objectForKey:@"keyJSON"] mutableObjectFromJSONString];
+            
+            switch (outputType)
+            {
+                case RMInteractiveSourceOutputTypeTeaser:
+                    [infoObject setValue:[NSNumber numberWithBool:YES] forKey:@"__teaser__"];
+                    formattedOutput = [GRMustacheTemplate renderObject:infoObject fromString:formatterTemplate error:NULL];
+                    break;
+                    
+                case RMInteractiveSourceOutputTypeFull:
+                default:
+                    [infoObject setValue:[NSNumber numberWithBool:YES] forKey:@"__full__"];
+                    formattedOutput = [GRMustacheTemplate renderObject:infoObject fromString:formatterTemplate error:NULL];
+                    break;
+            }
         }
-        
-        [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var options = { format: '%@' }", format]];
-        
-        formattedOutput = [formatter stringByEvaluatingJavaScriptFromString:@"format(options, data);"];
+        else
+        {
+            NSString *formatterJavascript = [(id <RMInteractiveSourcePrivate>)source interactivityFormatterJavascript];
+
+            if (formatterJavascript)
+            {
+                // We use a "headless" UIWebView here as an environment in which to format
+                // our data with a JavaScript interpreter. 
+                //
+                UIWebView *formatter = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
+                
+                NSString  *keyJSON = [interactivityDictionary objectForKey:@"keyJSON"];
+                
+                [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var data   = %@;", keyJSON]];
+                [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var format = %@;", formatterJavascript]];
+                
+                NSString *format;
+                
+                switch (outputType)
+                {
+                    case RMInteractiveSourceOutputTypeTeaser:
+                        format = @"teaser";
+                        break;
+                        
+                    case RMInteractiveSourceOutputTypeFull:
+                    default:
+                        format = @"full";
+                        break;
+                }
+                
+                [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var options = { format: '%@' }", format]];
+                
+                formattedOutput = [formatter stringByEvaluatingJavaScriptFromString:@"format(options, data);"];
+            }
+        }
     }
     
     return formattedOutput;
 }
 
 @end
+
+// This is a category for dealing with gzip-deflated data
+// over the wire or in MBTiles sources. 
 
 @interface NSData (RMInteractiveSource)
 
@@ -252,6 +317,14 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 #pragma mark -
 #pragma mark MBTiles Interactivity
 
+@interface RMMBTilesTileSource (RMInteractiveSourcePrivate) <RMInteractiveSourcePrivate>
+
+- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
+- (NSString *)interactivityFormatterTemplate;
+- (NSString *)interactivityFormatterJavascript;
+
+@end
+
 @implementation RMMBTilesTileSource (RMInteractiveSource)
 
 - (NSString *)description
@@ -266,7 +339,17 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (BOOL)supportsInteractivity
 {
-    return ([self interactivityFormatterJavascript] && [[self interactivityFormatterJavascript] length]);
+    // prefer templating
+    //
+    if ([self interactivityFormatterTemplate])
+        return YES;
+    
+    // fall back to (deprecated) JavaScript
+    //
+    if ([self respondsToSelector:@selector(interactivityFormatterJavascript)] && [self performSelector:@selector(interactivityFormatterJavascript)])
+        return YES;
+    
+    return NO;
 }
 
 - (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
@@ -336,6 +419,25 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
     return nil;    
 }
 
+- (NSString *)interactivityFormatterTemplate
+{
+    FMResultSet *results = [db executeQuery:@"select value from metadata where name = 'template'"];
+    
+    if ([db hadError])
+        return nil;
+    
+    [results next];
+    
+    NSString *template = nil;
+    
+    if ([results hasAnotherRow])
+        template = [results stringForColumn:@"value"];
+    
+    [results close];
+    
+    return template;
+}
+
 - (NSString *)interactivityFormatterJavascript
 {
     FMResultSet *results = [db executeQuery:@"select value from metadata where name = 'formatter'"];
@@ -368,6 +470,14 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 #pragma mark -
 #pragma mark TileStream Interactivity
 
+@interface RMTileStreamSource (RMInteractiveSourcePrivate) <RMInteractiveSourcePrivate>
+
+- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
+- (NSString *)interactivityFormatterTemplate;
+- (NSString *)interactivityFormatterJavascript;
+
+@end
+
 @implementation RMTileStreamSource (RMInteractiveSource)
 
 - (NSString *)description
@@ -382,7 +492,17 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (BOOL)supportsInteractivity
 {
-    return ([self interactivityFormatterJavascript] && [[self interactivityFormatterJavascript] length]);
+    // prefer templating
+    //
+    if ([self interactivityFormatterTemplate])
+        return YES;
+    
+    // fall back to (deprecated) JavaScript
+    //
+    if ([self respondsToSelector:@selector(interactivityFormatterJavascript)] && [self performSelector:@selector(interactivityFormatterJavascript)])
+        return YES;
+    
+    return NO;
 }
 
 - (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
@@ -444,6 +564,14 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
     return nil;    
 }
 
+- (NSString *)interactivityFormatterTemplate
+{
+    if ([self.infoDictionary objectForKey:@"template"])
+        return [self.infoDictionary objectForKey:@"template"];
+    
+    return nil;
+}
+
 - (NSString *)interactivityFormatterJavascript
 {
     if ([self.infoDictionary objectForKey:@"formatter"])
@@ -465,6 +593,14 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 #pragma mark -
 #pragma mark Cached Source Interactivity
 
+@interface RMCachedTileSource (RMInteractiveSourcePrivate) <RMInteractiveSourcePrivate>
+
+- (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
+- (NSString *)interactivityFormatterTemplate;
+- (NSString *)interactivityFormatterJavascript;
+
+@end
+
 @implementation RMCachedTileSource (RMInteractiveSource)
 
 - (NSString *)description
@@ -479,11 +615,9 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (BOOL)supportsInteractivity
 {
-    /**
-     * Cached tile sources have an internal, underlying `tileSource` that
-     * points to the original source. Check if that is a supported type
-     * and if so, if it supports interactivity.
-     */
+    // Cached tile sources have an internal, underlying `tileSource` that
+    // points to the original source. Check if that is a supported type
+    // and if so, if it supports interactivity.
 
     NSArray *supportedClasses = [NSArray arrayWithObjects:[RMMBTilesTileSource class], [RMTileStreamSource class], nil];
     
@@ -496,15 +630,25 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 - (NSDictionary *)interactivityDictionaryForPoint:(CGPoint)point inMapView:(RMMapView *)mapView;
 {
     if ([self supportsInteractivity])
-        return [(id <RMInteractiveSource>)tileSource interactivityDictionaryForPoint:point inMapView:mapView];
+        return [(id <RMInteractiveSourcePrivate>)tileSource interactivityDictionaryForPoint:point inMapView:mapView];
+    
+    return nil;
+}
+
+- (NSString *)interactivityFormatterTemplate
+{
+    if ([(id <RMInteractiveSource>)tileSource supportsInteractivity])
+        return [(id <RMInteractiveSourcePrivate>)tileSource interactivityFormatterTemplate];
     
     return nil;
 }
 
 - (NSString *)interactivityFormatterJavascript
 {
-    if ([self supportsInteractivity])
-        return [(id <RMInteractiveSource>)tileSource interactivityFormatterJavascript];
+    id <RMInteractiveSourcePrivate, NSObject>source = (id <RMInteractiveSourcePrivate, NSObject>)tileSource;
+    
+    if ([source respondsToSelector:@selector(interactivityFormatterJavascript)] && [source interactivityFormatterJavascript])
+        return [source interactivityFormatterJavascript];
     
     return nil;
 }

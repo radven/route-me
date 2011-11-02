@@ -194,7 +194,7 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
         //
         // More on Mustache: http://mustache.github.com
         //
-        NSString *formatterTemplate   = [(id <RMInteractiveSourcePrivate>)source interactivityFormatterTemplate];
+        NSString *formatterTemplate = [(id <RMInteractiveSourcePrivate>)source interactivityFormatterTemplate];
 
         if (formatterTemplate)
         {
@@ -566,7 +566,7 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (NSString *)interactivityFormatterTemplate
 {
-    if ([self.infoDictionary objectForKey:@"template"])
+    if ([self.infoDictionary objectForKey:@"template"] && [[self.infoDictionary objectForKey:@"template"] length])
         return [self.infoDictionary objectForKey:@"template"];
     
     return nil;
@@ -574,7 +574,7 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
 - (NSString *)interactivityFormatterJavascript
 {
-    if ([self.infoDictionary objectForKey:@"formatter"])
+    if ([self.infoDictionary objectForKey:@"formatter"] && [[self.infoDictionary objectForKey:@"formatter"] length])
         return [self.infoDictionary objectForKey:@"formatter"];
     
     return nil;

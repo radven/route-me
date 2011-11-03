@@ -224,8 +224,8 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
                 // our data with a JavaScript interpreter. 
                 //
                 UIWebView *formatter = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
-                
-                if ([source isKindOfClass:[RMCachedTileSource class]] || [source isKindOfClass:[RMTileStreamSource class]])
+
+                if ([[NSPredicate predicateWithFormat:@"SELF CONTAINS 'mustache.js'"] evaluateWithObject:formatterJavascript])
                 {
                     // For TileStream sources, v1 of the API still provides the JavaScript `formatter`
                     // key, but it's the new-style Mustache template, since that's what TileMill is 

@@ -405,6 +405,7 @@
 		D1437B31122869E400888DAE /* RMDBTileImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMDBTileImage.h; sourceTree = "<group>"; };
 		D1437B32122869E400888DAE /* RMDBMapSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMDBMapSource.m; sourceTree = "<group>"; };
 		D1437B33122869E400888DAE /* RMDBMapSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMDBMapSource.h; sourceTree = "<group>"; };
+		DD01F5BA14634B3300BD29C9 /* mustache.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = mustache.js; path = mustache.js/mustache.js; sourceTree = "<group>"; };
 		DD3B5A841459E29A00B5D18C /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GRMustache.h; path = GRMustache/include/GRMustache.h; sourceTree = "<group>"; };
 		DD3B5A8F1459E29A00B5D18C /* libGRMustache1-ios4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGRMustache1-ios4.a"; path = "GRMustache/lib/libGRMustache1-ios4.a"; sourceTree = "<group>"; };
 		DD55FD1212FB40E000B6FE24 /* RMMBTilesTileSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMBTilesTileSource.m; sourceTree = "<group>"; };
@@ -849,6 +850,14 @@
 			name = "Coordinate Systems";
 			sourceTree = "<group>";
 		};
+		DD01F5BC14634B3F00BD29C9 /* mustache.js */ = {
+			isa = PBXGroup;
+			children = (
+				DD01F5BA14634B3300BD29C9 /* mustache.js */,
+			);
+			name = mustache.js;
+			sourceTree = "<group>";
+		};
 		DD3B5A9D1459E2B000B5D18C /* GRMustache */ = {
 			isa = PBXGroup;
 			children = (
@@ -874,6 +883,7 @@
 				DDF0B75D1411985900ED0DF4 /* RMInteractiveSource.m */,
 				DD3B5A9E1459E2BB00B5D18C /* JSONKit */,
 				DD3B5A9D1459E2B000B5D18C /* GRMustache */,
+				DD01F5BC14634B3F00BD29C9 /* mustache.js */,
 			);
 			name = Interactivity;
 			sourceTree = "<group>";

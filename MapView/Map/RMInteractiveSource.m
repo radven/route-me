@@ -225,6 +225,25 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
                 //
                 UIWebView *formatter = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
                 
+                if ([source isKindOfClass:[RMCachedTileSource class]] || [source isKindOfClass:[RMTileStreamSource class]])
+                {
+                    // For TileStream sources, v1 of the API still provides the JavaScript `formatter`
+                    // key, but it's the new-style Mustache template, since that's what TileMill is 
+                    // generating these days. We need to run it through the Mustache library in 
+                    // JavaScript itself. Unlike web clients, where we can just download mustache.js 
+                    // from the tile server, we can't do that here due to cross-domain limitations, so 
+                    // we provide a bundled, local mustache.js to use instead. 
+                    //
+                    // This will eventually be phased out when we are using v2+ of the API and just
+                    // using straight templates and the Objective-C GRMustache library, as we do above.
+                    
+                    NSString *mustache = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"mustache" ofType:@"js"] 
+                                                                   encoding:NSUTF8StringEncoding 
+                                                                      error:NULL];
+                    
+                    [formatter stringByEvaluatingJavaScriptFromString:mustache];
+                }
+                
                 NSString  *keyJSON = [interactivityDictionary objectForKey:@"keyJSON"];
                 
                 [formatter stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var data   = %@;", keyJSON]];

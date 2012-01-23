@@ -47,7 +47,7 @@ See LicenseRouteMe.txt for license details. In any app that uses the Route-Me li
 Interactivity
 -------------
 
-This is a branch of Route-Me by [Development Seed][ds] which features embedded interactivity capabilities. See the INTERACTIVITY file for more information. 
+[Development Seed][ds] maintains a branch of stock Route-Me called `interactivity` which features embedded interactivity capabilities. See the INTERACTIVITY file for more information. 
 
 Before you try to use it, you should run `git submodule update --init` to pull down a couple required libraries as Git submodules into the main project folder. 
 

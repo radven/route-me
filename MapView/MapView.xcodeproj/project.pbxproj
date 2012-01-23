@@ -216,8 +216,6 @@
 		DDCD58D41406F8A400F59E0D /* RMTileStreamSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCD58D21406F8A300F59E0D /* RMTileStreamSource.m */; };
 		DDF0B75E1411985900ED0DF4 /* RMInteractiveSource.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF0B75C1411985900ED0DF4 /* RMInteractiveSource.h */; };
 		DDF0B75F1411985900ED0DF4 /* RMInteractiveSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF0B75D1411985900ED0DF4 /* RMInteractiveSource.m */; };
-		DDF0B7631411992500ED0DF4 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF0B7611411992500ED0DF4 /* JSONKit.h */; };
-		DDF0B7641411992500ED0DF4 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF0B7621411992500ED0DF4 /* JSONKit.m */; };
 		F5C12D2A0F8A86CA00A894D2 /* RMGeoHash.h in Headers */ = {isa = PBXBuildFile; fileRef = F5C12D280F8A86CA00A894D2 /* RMGeoHash.h */; };
 		F5C12D2B0F8A86CA00A894D2 /* RMGeoHash.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C12D290F8A86CA00A894D2 /* RMGeoHash.m */; };
 /* End PBXBuildFile section */
@@ -417,8 +415,6 @@
 		DDCD58D21406F8A300F59E0D /* RMTileStreamSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMTileStreamSource.m; sourceTree = "<group>"; };
 		DDF0B75C1411985900ED0DF4 /* RMInteractiveSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMInteractiveSource.h; sourceTree = "<group>"; };
 		DDF0B75D1411985900ED0DF4 /* RMInteractiveSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMInteractiveSource.m; sourceTree = "<group>"; };
-		DDF0B7611411992500ED0DF4 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		DDF0B7621411992500ED0DF4 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		F5C12D280F8A86CA00A894D2 /* RMGeoHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGeoHash.h; sourceTree = "<group>"; };
 		F5C12D290F8A86CA00A894D2 /* RMGeoHash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMGeoHash.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -867,15 +863,6 @@
 			name = GRMustache;
 			sourceTree = "<group>";
 		};
-		DD3B5A9E1459E2BB00B5D18C /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				DDF0B7611411992500ED0DF4 /* JSONKit.h */,
-				DDF0B7621411992500ED0DF4 /* JSONKit.m */,
-			);
-			name = JSONKit;
-			sourceTree = "<group>";
-		};
 		DDF0B760141198B500ED0DF4 /* Interactivity */ = {
 			isa = PBXGroup;
 			children = (
@@ -954,7 +941,6 @@
 				DDA3E85613B00D9E004D861C /* RMMapQuestOSMSource.h in Headers */,
 				DDCD58D31406F8A400F59E0D /* RMTileStreamSource.h in Headers */,
 				DDF0B75E1411985900ED0DF4 /* RMInteractiveSource.h in Headers */,
-				DDF0B7631411992500ED0DF4 /* JSONKit.h in Headers */,
 				DD3B5A911459E29A00B5D18C /* GRMustache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1263,7 +1249,6 @@
 				DDA3E85713B00D9E004D861C /* RMMapQuestOSMSource.m in Sources */,
 				DDCD58D41406F8A400F59E0D /* RMTileStreamSource.m in Sources */,
 				DDF0B75F1411985900ED0DF4 /* RMInteractiveSource.m in Sources */,
-				DDF0B7641411992500ED0DF4 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

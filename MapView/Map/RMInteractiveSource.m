@@ -39,8 +39,6 @@
 
 #import "FMDatabase.h"
 
-#import "JSONKit.h"
-
 #import "GRMustache.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -198,7 +196,11 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
 
         if (formatterTemplate)
         {
-            NSDictionary *infoObject = [[interactivityDictionary objectForKey:@"keyJSON"] mutableObjectFromJSONString];
+            NSData *jsonData = [[interactivityDictionary objectForKey:@"keyJSON"] dataUsingEncoding:NSUTF8StringEncoding];
+            
+            NSDictionary *infoObject = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:NULL];
             
             switch (outputType)
             {
@@ -397,7 +399,7 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
         NSData *inflatedData = [gridData gzipInflate];
         NSString *gridString = [[[NSString alloc] initWithData:inflatedData encoding:NSUTF8StringEncoding] autorelease];
         
-        id grid = [gridString objectFromJSONString];
+        id grid = [NSJSONSerialization JSONObjectWithData:[gridString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
         
         if (grid && [grid isKindOfClass:[NSDictionary class]])
         {
@@ -561,7 +563,7 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
                 [gridString replaceCharactersInRange:NSMakeRange([gridString length] - 2, 2) withString:@""];
             }
             
-            id grid = [gridString objectFromJSONString];
+            id grid = [NSJSONSerialization JSONObjectWithData:[gridString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
             
             if (grid && [grid isKindOfClass:[NSDictionary class]])
             {
@@ -571,10 +573,18 @@ RMTilePoint RMInteractiveSourceNormalizedTilePointForMapView(CGPoint point, RMMa
                 {
                     NSDictionary *data = [grid objectForKey:@"data"];
                     
-                    if (data)                    
-                        return [NSDictionary dictionaryWithObjectsAndKeys:keyName,                                  @"keyName",
-                                                                          [[data objectForKey:keyName] JSONString], @"keyJSON",
+                    if (data)
+                    {
+                        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[data objectForKey:keyName]
+                                                                         options:0
+                                                                           error:NULL];
+                        
+                        NSString *jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease];
+                        
+                        return [NSDictionary dictionaryWithObjectsAndKeys:keyName,    @"keyName",
+                                                                          jsonString, @"keyJSON",
                                                                           nil];
+                    }
                 }
             }
         }

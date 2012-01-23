@@ -51,7 +51,10 @@ This is a branch of Route-Me by [Development Seed][ds] which features embedded i
 
 Before you try to use it, you should run `git submodule update --init` to pull down a couple required libraries as Git submodules into the main project folder. 
 
+Note that this branch requires iOS 5 or greater due to native JSON serializer use. If you'd like to use it on prior versions, as of this writing, you can do this using something like [JSONKit][jsonkit] and reversing the changes introduced in commit 88564f. 
+
 [ds]: http://developmentseed.org/blog/2011/11/01/map-interactivity-library-ios/
+[jsonkit]: https://github.com/johnezang/JSONKit
 
 
 News, Support and Contributing

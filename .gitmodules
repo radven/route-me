@@ -1,9 +1,6 @@
 [submodule "MapView/Map/GRMustache"]
 	path = MapView/Map/GRMustache
 	url = https://github.com/groue/GRMustache.git
-[submodule "MapView/Map/JSONKit"]
-	path = MapView/Map/JSONKit
-	url = https://github.com/johnezang/JSONKit.git
 [submodule "MapView/Map/mustache.js"]
 	path = MapView/Map/mustache.js
 	url = https://github.com/janl/mustache.js.git

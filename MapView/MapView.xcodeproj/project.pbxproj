@@ -869,7 +869,6 @@
 				DDF0B75C1411985900ED0DF4 /* RMInteractiveSource.h */,
 				DDF0B75D1411985900ED0DF4 /* RMInteractiveSource.m */,
 				DD3B5A9D1459E2B000B5D18C /* GRMustache */,
-				DD3B5A9E1459E2BB00B5D18C /* JSONKit */,
 				DD01F5BC14634B3F00BD29C9 /* mustache.js */,
 			);
 			name = Interactivity;
